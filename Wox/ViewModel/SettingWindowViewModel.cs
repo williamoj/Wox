@@ -28,13 +28,13 @@ namespace Wox.ViewModel
 
         public SettingWindowViewModel(IPortable portable)
         {
-
             _updater = new Updater(Wox.Properties.Settings.Default.GithubRepo); ;
             _portable = portable;
             Settings = Settings.Instance;
-            Settings.PropertyChanged += (s, e) =>
+            Locals = Locals.Instance;
+            Locals.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == nameof(Settings.ActivateTimes))
+                if (e.PropertyName == nameof(Locals.ActivateTimes))
                 {
                     OnPropertyChanged(nameof(ActivatedTimes));
                 }
@@ -43,6 +43,7 @@ namespace Wox.ViewModel
         }
 
         public Settings Settings { get; set; }
+        public Locals Locals { get; set; }
 
         public async void UpdateApp()
         {
@@ -102,6 +103,7 @@ namespace Wox.ViewModel
         public void Save()
         {
             Settings.Save();
+            Locals.Save();
         }
 
         #region general
@@ -475,7 +477,7 @@ namespace Wox.ViewModel
         public string Github => _updater.GitHubRepository;
         public string ReleaseNotes => _updater.GitHubRepository + @"/releases/latest";
         public static string Version => Constant.Version;
-        public string ActivatedTimes => string.Format(_translater.GetTranslation("about_activate_times"), Settings.ActivateTimes);
+        public string ActivatedTimes => string.Format(_translater.GetTranslation("about_activate_times"), Locals.ActivateTimes);
         #endregion
     }
 }

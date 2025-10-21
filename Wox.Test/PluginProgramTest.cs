@@ -22,6 +22,7 @@ namespace Wox.Test
         public void Setup()
         {
             Settings.Initialize();
+            Locals.Initialize();
             Portable portable = new Portable();
             SettingWindowViewModel settingsVm = new SettingWindowViewModel(portable);
             StringMatcher stringMatcher = new StringMatcher();

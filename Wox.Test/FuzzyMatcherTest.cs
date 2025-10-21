@@ -24,6 +24,7 @@ namespace Wox.Test
         public void setUp()
         {
             Settings.Initialize();
+            Locals.Initialize();
         }
 
         public List<string> GetSearchStrings()

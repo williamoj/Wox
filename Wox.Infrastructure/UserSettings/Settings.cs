@@ -82,10 +82,7 @@ namespace Wox.Infrastructure.UserSettings
         public bool AutoUpdates { get; set; } = true;
         public bool UpdateToPrereleases { get; set; } = false;
 
-        public double WindowLeft { get; set; }
-        public double WindowTop { get; set; }
         public int MaxResultsToShow { get; set; } = 6;
-        public int ActivateTimes { get; set; }
 
         // Order defaults to 0 or -1, so 1 will let this property appear last
         [JsonProperty(Order = 1)]
@@ -122,6 +119,30 @@ namespace Wox.Infrastructure.UserSettings
 
         [JsonConverter(typeof(StringEnumConverter))]
         public LastQueryMode LastQueryMode { get; set; } = LastQueryMode.Selected;
+    }
+
+    public class Locals : BaseModel
+    {
+        #region Save/Load
+
+        public static void Save()
+        {
+            _storage.Save();
+        }
+
+        private static WoxJsonStorage<Locals> _storage = new WoxJsonStorage<Locals>();
+        public static Locals Instance;
+
+        public static void Initialize()
+        {
+            Instance = _storage.Load();
+        }
+
+        #endregion
+
+        public double WindowLeft { get; set; }
+        public double WindowTop { get; set; }
+        public int ActivateTimes { get; set; }
     }
 
     public enum LastQueryMode

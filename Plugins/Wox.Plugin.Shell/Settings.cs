@@ -10,8 +10,6 @@ namespace Wox.Plugin.Shell
         public bool ReplaceWinR { get; set; } = true;
         public bool LeaveShellOpen { get; set; }
         public bool RunAsAdministrator { get; set; } = true;
-
-        public Dictionary<string, int> Count = new Dictionary<string, int>();
         public bool SupportWSL { get; private set; }
 
         public Settings()
@@ -27,6 +25,11 @@ namespace Wox.Plugin.Shell
                 SupportWSL = false;
             }
         }
+    }
+
+    public class Locals
+    {
+        public Dictionary<string, int> Count = new Dictionary<string, int>();
 
         public void AddCmdHistory(string cmdName)
         {

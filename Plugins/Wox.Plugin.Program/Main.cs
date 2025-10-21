@@ -21,6 +21,7 @@ namespace Wox.Plugin.Program
         internal static Win32[] _win32s { get; set; }
         internal static UWP.Application[] _uwps { get; set; }
         internal static Settings _settings { get; set; }
+        internal static Locals _locals { get; set; }
 
         private static PluginInitContext _context;
         private CancellationTokenSource _updateSource;
@@ -28,6 +29,7 @@ namespace Wox.Plugin.Program
         private static BinaryStorage<Win32[]> _win32Storage;
         private static BinaryStorage<UWP.Application[]> _uwpStorage;
         private PluginJsonStorage<Settings> _settingsStorage;
+        private PluginJsonStorage<Locals> _localsStorge;
 
         private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -47,6 +49,7 @@ namespace Wox.Plugin.Program
         public void Save()
         {
             _settingsStorage.Save();
+            _localsStorge.Save();
             _win32Storage.Save(_win32s);
             _uwpStorage.Save(_uwps);
         }
@@ -148,6 +151,8 @@ namespace Wox.Plugin.Program
         {
             _settingsStorage = new PluginJsonStorage<Settings>();
             _settings = _settingsStorage.Load();
+            _localsStorge = new PluginJsonStorage<Locals>();
+            _locals = _localsStorge.Load();
         }
 
         public static void IndexWin32Programs()
@@ -189,8 +194,7 @@ namespace Wox.Plugin.Program
             {
                 Logger.WoxDebug($" uwp: <{uwp.DisplayName}> <{uwp.UserModelId}>");
             }
-            _settings.LastIndexTime = DateTime.Today;
-            
+            _locals.LastIndexTime = DateTime.Today;
         }
 
         public Control CreateSettingPanel()
@@ -218,7 +222,6 @@ namespace Wox.Plugin.Program
             }
             return menuOptions;
         }
-
 
         public static void StartProcess(Func<ProcessStartInfo, Process> runProcess, ProcessStartInfo info)
         {

@@ -27,19 +27,24 @@ namespace Wox.Plugin.Shell
         private readonly KeyboardSimulator _keyboardSimulator = new KeyboardSimulator(new InputSimulator());
 
         private readonly Settings _settings;
-        private readonly PluginJsonStorage<Settings> _storage;
-        
+        private readonly PluginJsonStorage<Settings> _storage1;
+        private readonly Locals _locals;
+        private readonly PluginJsonStorage<Locals> _storage2;
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public Main()
         {
-            _storage = new PluginJsonStorage<Settings>();
-            _settings = _storage.Load();
+            _storage1 = new PluginJsonStorage<Settings>();
+            _settings = _storage1.Load();
+            _storage2 = new PluginJsonStorage<Locals>();
+            _locals = _storage2.Load();
         }
 
         public void Save()
         {
-            _storage.Save();
+            _storage1.Save();
+            _storage2.Save();
         }
 
 
@@ -105,7 +110,7 @@ namespace Wox.Plugin.Shell
 
         private List<Result> GetHistoryCmds(string cmd, Result result)
         {
-            IEnumerable<Result> history = _settings.Count.Where(o => o.Key.Contains(cmd))
+            IEnumerable<Result> history = _locals.Count.Where(o => o.Key.Contains(cmd))
                 .OrderByDescending(o => o.Value)
                 .Select(m =>
                 {
@@ -151,7 +156,7 @@ namespace Wox.Plugin.Shell
 
         private List<Result> ResultsFromlHistory()
         {
-            IEnumerable<Result> history = _settings.Count.OrderByDescending(o => o.Value)
+            IEnumerable<Result> history = _locals.Count.OrderByDescending(o => o.Value)
                 .Select(m => new Result
                 {
                     Title = m.Key,
@@ -240,7 +245,7 @@ namespace Wox.Plugin.Shell
 
             info.UseShellExecute = true;
 
-            _settings.AddCmdHistory(command);
+            _locals.AddCmdHistory(command);
 
             return info;
         }

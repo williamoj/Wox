@@ -87,6 +87,7 @@ namespace Wox
 
                 Logger.WoxInfo("Begin Wox startup----------------------------------------------------");
                 Settings.Initialize();
+                Locals.Initialize();
                 ExceptionFormatter.Initialize(_systemLanguage, Settings.Instance.Language);
                 InsertWoxLanguageIntoLog();
 

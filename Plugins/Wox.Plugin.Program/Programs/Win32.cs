@@ -290,7 +290,6 @@ namespace Wox.Plugin.Program.Programs
 
         public static Win32[] All(Settings settings)
         {
-
             var programs = new List<Win32>().AsParallel();
             try
             {

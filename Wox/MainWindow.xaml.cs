@@ -29,6 +29,7 @@ namespace Wox
 
         private readonly Storyboard _progressBarStoryboard = new Storyboard();
         private Settings _settings;
+        private Locals _locals;
         private NotifyIcon _notifyIcon;
         private MainViewModel _viewModel;
         private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
@@ -38,6 +39,7 @@ namespace Wox
             DataContext = mainVM;
             _viewModel = mainVM;
             _settings = Settings.Instance;
+            _locals = Locals.Instance;
             InitializeComponent();
         }
         public MainWindow()
@@ -76,7 +78,7 @@ namespace Wox
                         Activate();
                         QueryTextBox.Focus();
                         UpdatePosition();
-                        _settings.ActivateTimes++;
+                        _locals.ActivateTimes++;
                         if (!_viewModel.LastQuerySelected)
                         {
                             QueryTextBox.SelectAll();
@@ -112,8 +114,8 @@ namespace Wox
         {
             Top = WindowTop();
             Left = WindowLeft();
-            _settings.WindowTop = Top;
-            _settings.WindowLeft = Left;
+            _locals.WindowTop = Top;
+            _locals.WindowLeft = Left;
         }
 
         private void InitializeNotifyIcon()
@@ -244,8 +246,8 @@ namespace Wox
         {
             if (_settings.RememberLastLaunchLocation)
             {
-                Left = _settings.WindowLeft;
-                Top = _settings.WindowTop;
+                Left = _locals.WindowLeft;
+                Top = _locals.WindowTop;
             }
             else
             {
@@ -258,8 +260,8 @@ namespace Wox
         {
             if (_settings.RememberLastLaunchLocation)
             {
-                _settings.WindowLeft = Left;
-                _settings.WindowTop = Top;
+                _locals.WindowLeft = Left;
+                _locals.WindowTop = Top;
             }
         }
 
